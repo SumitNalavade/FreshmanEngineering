@@ -40,3 +40,4 @@ print(f'For t = {25} minutes, the position p = {calculateTotalDistance(25)} kilo
 
 print("Part 2:")
 print(f'For t = {300} minutes, the position p = {calculateDistanceFromHouston(300)} kilometers')
+
