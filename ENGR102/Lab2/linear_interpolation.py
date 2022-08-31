@@ -13,17 +13,17 @@
 from math import pi
 
 #Part 1
-def calculateTotalDistance(testTime):
+def calculateTotalDistance(interpolatedTime):
     initialTime = 10
     initialPosition = 2026
 
     finalTime = 55
     finalPosition = 23026
 
-    #Calculate the position of the iss at a given time (testTime)
-    testPosition = initialPosition + ((finalPosition - initialPosition)/(finalTime - initialTime) * (testTime - initialTime))
+    #Calculate the position of the iss at a given time (interpolatedTime)
+    interpolatedPosition = initialPosition + ((finalPosition - initialPosition)/(finalTime - initialTime) * (interpolatedTime - initialTime))
 
-    return testPosition
+    return interpolatedPosition
 
 #Part 2
 def calculateDistanceFromHouston(testTime):
