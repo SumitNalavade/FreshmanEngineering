@@ -4,7 +4,7 @@
 #
 # Name:         Sumit Nalavade
 # Section:      524
-# Assignment:   Lab 6.13
+# Assignment:   Lab 6.14
 # Date:         2 October 2022
 
 import math
