@@ -26,3 +26,44 @@ def partb(n):
             if(total == n):
                 return numsArr
         start += 1
+
+def partc(char, name, company, email):
+    def getLongest(char, name, company, email):
+        longest = ''
+        for i in [char, name, company, email]:
+            if(len(i) > len(longest)):
+                longest = i
+        
+        return longest
+
+    card = ""
+
+    longest = getLongest(char, name, company, email)
+
+    card = f"""
+{char+"".center(len(longest)+5,char)}
+{char+name.center(len(longest)+4)+char}
+{char+company.center(len(longest)+4)+char}
+{char+email.center(len(longest)+4)+char}
+{char+"".center(len(longest)+5,char)}""".strip()
+
+    return card
+
+def partd(nums):
+    nums.sort()
+    print(nums)
+
+    minimum = nums[0]
+    maximum = nums[len(nums) - 1]
+    median = 0
+
+    if(len(nums) % 2 != 0):
+        median = nums[int(len(nums) / 2)]
+        print(median)
+    else:
+        lower = (nums[int(len(nums) / 2)])
+        upper = (nums[int((len(nums) / 2) - 1)])
+
+        median = (lower + upper) / 2
+
+    return (minimum, median, maximum)
