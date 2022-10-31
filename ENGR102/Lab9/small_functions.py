@@ -10,9 +10,12 @@
 import math
 
 def parta(sphereRadius, holeRadius):
+    # Take in the radius of the sphere and the cylinder and use a formula to find the volume
+
     return ((4 * math.pi)/3) * ((sphereRadius**2) - (holeRadius**2)) ** (3/2)
     
 def partb(n):
+    # Get all of the odd numbers between the number and test if they add up
     oddNums = [i for i in range(n) if i % 2 != 0]
     start  = 0
     while(True):
@@ -28,6 +31,7 @@ def partb(n):
         start += 1
 
 def partc(char, name, company, email):
+    #Style comment
     def getLongest(char, name, company, email):
         longest = ''
         for i in [char, name, company, email]:
@@ -50,8 +54,8 @@ def partc(char, name, company, email):
     return card
 
 def partd(nums):
+    # Style comment
     nums.sort()
-    print(nums)
 
     minimum = nums[0]
     maximum = nums[len(nums) - 1]
@@ -67,3 +71,23 @@ def partd(nums):
         median = (lower + upper) / 2
 
     return (minimum, median, maximum)
+
+def parte(times, distances):
+    # Style Comment
+    velocities = []
+
+    for i in range(len(distances) - 1):
+        distance = abs(distances[i + 1] - distances[i])
+        time = abs(times[i + 1] - times[i])
+
+        velocities.append(distance  /time)
+
+    return velocities
+
+def partf(nums):
+    # Style comment
+    for i in nums:
+        for j in nums:
+            if(i + j == 2026):
+                return  i * j
+    return 0
