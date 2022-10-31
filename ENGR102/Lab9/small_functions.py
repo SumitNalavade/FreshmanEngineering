@@ -10,10 +10,19 @@
 import math
 
 def parta(sphereRadius, holeRadius):
-    sphereVolume = (4/3) * math.pi * (sphereRadius ** 3)
-    cylinderVolume = math.pi * (holeRadius ** 2) * (sphereRadius * 2)
-
-    return sphereVolume - cylinderVolume
-
-
-print(parta(1,0))
+    return ((4 * math.pi)/3) * ((sphereRadius**2) - (holeRadius**2)) ** (3/2)
+    
+def partb(n):
+    oddNums = [i for i in range(n) if i % 2 != 0]
+    start  = 0
+    while(True):
+        total = 0
+        numsArr = []
+        if(start >= n):
+            return False
+        for i in (range(start, len(oddNums))):
+            numsArr.append(oddNums[i])
+            total += oddNums[i]
+            if(total == n):
+                return numsArr
+        start += 1
