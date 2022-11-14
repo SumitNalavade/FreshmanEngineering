@@ -7,6 +7,8 @@
 # Assignment:   Lab 11.9
 # Date:         13 November 2022
 
+# Class to hold the fields and to deterimine if it's valid
+# Helps organize some of the data a little bit better
 class Passport():
     fieldsArr = []
     originalText = ""
