@@ -1,4 +1,6 @@
-KEY = ([
+import numpy as np
+
+KEY = np.array([
     ["T", "E", "X", "A", "S"],
     ["H", "B", "R", "P", "L"],
     ["Y", "K", "I", "Q", "Z"],
