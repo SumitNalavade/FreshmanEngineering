@@ -9,6 +9,7 @@ class Hazard:
         pass
 
     def warn(self, type):
+        print(f"Hazard: {type}")
         if(isinstance(type, Wumpus)):
             print("I smell a Wumpus!")
         elif(isinstance(type, BottomlessPit)):
@@ -47,7 +48,6 @@ class Superbat(Hazard):
         for hazard in ROOM_MAP[originalRoom].hazards:
             if(isinstance(hazard, Superbat)):
                 ROOM_MAP[originalRoom].hazards.remove(hazard)
-                break
         
         ROOM_MAP[currentPlayer.currentRoom].hazards = ROOM_MAP[currentPlayer.currentRoom].hazards.append(Superbat())
 
@@ -56,6 +56,23 @@ class Wumpus(Hazard):
     def __init__(self) -> None:
         super().__init__()
         pass
+        
+    def engage(self, currentPlayer):
+        randomChance = random.randint(1,100)
+
+        if(randomChance <= 75):
+            print("You entered the room with the Wumpus! Luckily it chose to move to a neighboring room")
+
+            for hazard in ROOM_MAP[currentPlayer.currentRoom].hazards:
+                if(isinstance(hazard, Wumpus)):
+                    ROOM_MAP[currentPlayer.currentRoom].hazards.remove(hazard)
+            
+            newRoom = ROOM_MAP[currentPlayer.currentRoom].connectedRooms[random.randrange(0,2)]
+
+            currentHazards = ROOM_MAP[newRoom].hazards
+            currentHazards.append(Superbat())
+            ROOM_MAP[newRoom].hazards = currentHazards
+
 
 class Room:
     connectedRooms = []
@@ -113,6 +130,8 @@ if __name__ == "__main__":
     ROOM_MAP[hazardousRooms[4]].hazards = [Wumpus()]
 
     currentPlayer = Player()
+
+    print(f"Wumpus in room {hazardousRooms[4]}")
 
     print("Hunt the Wumpus! \n")
     while(True):
