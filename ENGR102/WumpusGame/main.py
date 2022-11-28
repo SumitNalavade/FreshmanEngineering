@@ -9,7 +9,6 @@ class Hazard:
         pass
 
     def warn(self, type):
-        print(f"Hazard: {type}")
         if(isinstance(type, Wumpus)):
             print("I smell a Wumpus!")
         elif(isinstance(type, BottomlessPit)):
@@ -67,12 +66,15 @@ class Wumpus(Hazard):
                 if(isinstance(hazard, Wumpus)):
                     ROOM_MAP[currentPlayer.currentRoom].hazards.remove(hazard)
             
-            newRoom = ROOM_MAP[currentPlayer.currentRoom].connectedRooms[random.randrange(0,2)]
+            newRoomIndex = random.randrange(0,2)
+            
 
-            currentHazards = ROOM_MAP[newRoom].hazards
-            currentHazards.append(Superbat())
-            ROOM_MAP[newRoom].hazards = currentHazards
+        else:
+            print("The Wumpus woke up and ate you!")
+            currentPlayer.die()
 
+        for i in ROOM_MAP:
+            print(f"Room: {i} Hazards: {ROOM_MAP[i].hazards}")
 
 class Room:
     connectedRooms = []
