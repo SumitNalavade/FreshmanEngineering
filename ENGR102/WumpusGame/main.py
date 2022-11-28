@@ -48,7 +48,7 @@ class Superbat(Hazard):
             if(isinstance(hazard, Superbat)):
                 ROOM_MAP[originalRoom].hazards.remove(hazard)
         
-        ROOM_MAP[currentPlayer.currentRoom].hazards = ROOM_MAP[currentPlayer.currentRoom].hazards.append(Superbat())
+        ROOM_MAP[currentPlayer.currentRoom].hazards = ROOM_MAP[currentPlayer.currentRoom].hazards = [Superbat()]
 
 # Class Superbat extends Wumpus
 class Wumpus(Hazard):
@@ -65,10 +65,9 @@ class Wumpus(Hazard):
             for hazard in ROOM_MAP[currentPlayer.currentRoom].hazards:
                 if(isinstance(hazard, Wumpus)):
                     ROOM_MAP[currentPlayer.currentRoom].hazards.remove(hazard)
-            
-            newRoomIndex = random.randrange(0,2)
-            
 
+            newRoomIndex = ROOM_MAP[currentPlayer.currentRoom].connectedRooms[random.randint(0,2)]
+            ROOM_MAP[newRoomIndex].hazards = [Wumpus()]
         else:
             print("The Wumpus woke up and ate you!")
             currentPlayer.die()
