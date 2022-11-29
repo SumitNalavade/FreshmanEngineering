@@ -72,9 +72,6 @@ class Wumpus(Hazard):
             print("The Wumpus woke up and ate you!")
             currentPlayer.die()
 
-        for i in ROOM_MAP:
-            print(f"Room: {i} Hazards: {ROOM_MAP[i].hazards}")
-
 class Room:
     connectedRooms = []
     hazards = []
@@ -83,7 +80,8 @@ class Room:
         self.connectedRooms = connectedRooms
 
 class Player:
-    currentRoom = random.randrange(1,20)
+    numArrows = 5
+    currentRoom = 1
 
     def __init__(self) -> None:
         pass
@@ -92,10 +90,37 @@ class Player:
         self.currentRoom = newRoom
 
     def shoot(self):
-        print("Shooting")
+        self.numArrows -= 1
+
+        roomsToShootThrough = [self.currentRoom]
+        arrowValid = True
+
+        numRooms = int(input("\nShoot through how many rooms (1-5)? "))
+
+        for i in range(1, numRooms + 1):
+            roomsToShootThrough.append(int(input(f"Room #{i} of path: ")))
+
+        for roomIndex in range(0, len(roomsToShootThrough) - 1):
+            nextRoom = roomsToShootThrough[roomIndex + 1]
+
+            if(nextRoom not in ROOM_MAP[roomsToShootThrough[roomIndex]].connectedRooms):
+                arrowValid = False
+
+        if(arrowValid == True):
+            for roomIndex in roomsToShootThrough[1:]:
+                for hazard in ROOM_MAP[roomIndex].hazards:
+                    if(isinstance(hazard, Wumpus)):
+                        self.win()
+                    elif(isinstance(hazard, Player)):
+                        self.die()
+
 
     def die(self):
         print("You died! Game Over!")
+        exit(0)
+
+    def win(self):
+        print("You shot the Wumpus! Game Over!")
         exit(0)
 
 ROOM_MAP = {
@@ -123,7 +148,7 @@ ROOM_MAP = {
 
 if __name__ == "__main__":
     # Assign hazards to random rooms
-    hazardousRooms = random.sample(range(1,21), 5)
+    hazardousRooms = random.sample(range(2,21), 5)
     ROOM_MAP[hazardousRooms[0]].hazards = [BottomlessPit()]
     ROOM_MAP[hazardousRooms[1]].hazards = [BottomlessPit()]
     ROOM_MAP[hazardousRooms[2]].hazards = [Superbat()]
