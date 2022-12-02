@@ -1,5 +1,21 @@
 import random
 
+try:
+    from playsound import playsound
+except:
+    pass
+
+def sound(type):
+    try:
+        if(isinstance(type, Wumpus)):
+            playsound("./wumpus.mp3")
+        elif(isinstance(type, BottomlessPit)):
+            playsound("./wind.mp3")
+        elif(isinstance(type, Superbat)):
+            playsound("./bat.mp3")
+    except:
+        pass
+
 # Abstract class Hazard
 class Hazard:
     def __init__(self) -> None:
@@ -16,6 +32,8 @@ class Hazard:
         elif(isinstance(type, Superbat)):
             print("Bats nearby!")
 
+        sound(type)
+        
 # Class BottomlessPit extends Hazard
 class BottomlessPit(Hazard):
     def __init__(self) -> None:
@@ -132,12 +150,21 @@ class Player:
                     elif(isinstance(hazard, Player)):
                         self.die()
 
+        if(self.numArrows == 0):
+            print("You ran out of arrows!")
+            self.die()
+
     def die(self):
         print("You died! Game Over!")
         exit(0)
 
     def win(self):
         print("You shot the Wumpus! Game Over!")
+        try:
+            playsound("./victoryRoyale.mp3")
+            playsound("./defaultDance.mp3")
+        except:
+            pass
         exit(0)
 
 ROOM_MAP = {
@@ -164,6 +191,11 @@ ROOM_MAP = {
 }
 
 if __name__ == "__main__":
+    try:
+        playsound("./background.mp3", False)
+    except:
+        pass
+
     # Assign hazards to random rooms
     hazardousRooms = random.sample(range(2,21), 5)
     ROOM_MAP[hazardousRooms[0]].hazards = [BottomlessPit()]
@@ -176,7 +208,8 @@ if __name__ == "__main__":
 
     print(f"Wumpus in room {hazardousRooms[4]}")
 
-    print("Hunt the Wumpus! \n")
+    print("Hunt the Wumpus!\n")
+    print("Please make sure to install the playsound package and turn up your volume for added effects!")
     while(True):
 
         for hazard in ROOM_MAP[currentPlayer.currentRoom].hazards:
@@ -185,6 +218,7 @@ if __name__ == "__main__":
         currentRoom = currentPlayer.currentRoom
 
         print(f"\nYou are in room {currentRoom}")
+        print(f"You have {currentPlayer.numArrows} arrows remaining")
         print(f'Tunnels lead to rooms {", ".join([str(x) for x in ROOM_MAP[currentRoom].connectedRooms])} \n')
 
         for connectedRoom in ROOM_MAP[currentRoom].connectedRooms:
