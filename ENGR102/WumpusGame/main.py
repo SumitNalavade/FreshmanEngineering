@@ -68,6 +68,8 @@ class Wumpus(Hazard):
 
             newRoomIndex = ROOM_MAP[currentPlayer.currentRoom].connectedRooms[random.randint(0,2)]
             ROOM_MAP[newRoomIndex].hazards = [Wumpus()]
+
+            print(f"Wumpus in room {newRoomIndex}")
         else:
             print("The Wumpus woke up and ate you!")
             currentPlayer.die()
@@ -89,16 +91,10 @@ class Player:
     def move(self, newRoom):
         self.currentRoom = newRoom
 
-    def shoot(self):
+    def shoot(self, roomsToShootThrough):
         self.numArrows -= 1
 
-        roomsToShootThrough = [self.currentRoom]
         arrowValid = True
-
-        numRooms = int(input("\nShoot through how many rooms (1-5)? "))
-
-        for i in range(1, numRooms + 1):
-            roomsToShootThrough.append(int(input(f"Room #{i} of path: ")))
 
         for roomIndex in range(0, len(roomsToShootThrough) - 1):
             nextRoom = roomsToShootThrough[roomIndex + 1]
@@ -108,12 +104,33 @@ class Player:
 
         if(arrowValid == True):
             for roomIndex in roomsToShootThrough[1:]:
+                print(f"Arrow going through room {roomIndex}")
                 for hazard in ROOM_MAP[roomIndex].hazards:
                     if(isinstance(hazard, Wumpus)):
                         self.win()
                     elif(isinstance(hazard, Player)):
                         self.die()
+        else:
+            print("\nInvalid Arrow Path!")
+            print("Generating random arrow path...")
+            randomPath = []
 
+            currentRoom = self.currentRoom 
+            for i in roomsToShootThrough:
+                randomRoomIndex = random.randint(0,2)
+
+                newRoomIndex = ROOM_MAP[currentRoom].connectedRooms[randomRoomIndex]
+                currentRoom = newRoomIndex
+
+                randomPath.append(currentRoom)
+            
+            for roomIndex in randomPath[1:]:
+                print(f"Arrow going through room {roomIndex}")
+                for hazard in ROOM_MAP[roomIndex].hazards:
+                    if(isinstance(hazard, Wumpus)):
+                        self.win()
+                    elif(isinstance(hazard, Player)):
+                        self.die()
 
     def die(self):
         print("You died! Game Over!")
@@ -161,6 +178,7 @@ if __name__ == "__main__":
 
     print("Hunt the Wumpus! \n")
     while(True):
+
         for hazard in ROOM_MAP[currentPlayer.currentRoom].hazards:
             hazard.engage(currentPlayer)
 
@@ -177,11 +195,30 @@ if __name__ == "__main__":
         move = input("")
 
         if(move == "1"):
-            newRoom = int(input("\nWhere to? "))
+            try:
+                newRoom = int(input("\nWhere to? "))
             
-            while((newRoom) not in ROOM_MAP[currentRoom].connectedRooms):
-                newRoom = int(input(f"It is not possible to move to room {newRoom}\nPlease enter a valid room: "))
+                while((newRoom) not in ROOM_MAP[currentRoom].connectedRooms):
+                    newRoom = int(input(f"It is not possible to move to room {newRoom}\nPlease enter a valid room: "))
 
-            currentPlayer.move(newRoom)
+                currentPlayer.move(newRoom)
+            except:
+                print("Invalid Input!")
         elif(move == "2"):
-            currentPlayer.shoot()
+            roomsToShootThrough = [currentRoom]
+
+            try:
+                numRooms = int(input("\nShoot through how many rooms (1-5)? "))
+
+                if(numRooms < 1 or numRooms > 5):
+                    raise Exception("Invalid input!")
+
+                for i in range(1, numRooms + 1):
+                    roomsToShootThrough.append(int(input(f"Room #{i} of path: ")))
+            except:
+                print("Invalid Input!")
+
+            currentPlayer.shoot(roomsToShootThrough)
+
+        else:
+            print("Invaid input.")
