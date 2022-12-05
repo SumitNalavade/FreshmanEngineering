@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"strconv"
 	"strings"
-	// "io/ioutil"
 )
 
 func getInput() []string {
