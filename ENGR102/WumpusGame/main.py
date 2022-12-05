@@ -310,7 +310,15 @@ if __name__ == "__main__":
                     raise Exception("Invalid input!")
 
                 for i in range(1, numRooms + 1):
-                    roomsToShootThrough.append(int(input(f"Room #{i} of path: ")))
+                    roomIndex = None
+
+                    while(roomIndex == None):
+                        roomIndex = int(input(f"Room #{i} of path: "))
+                        if(roomIndex < 1 or roomIndex > 20):
+                            print("Invalid input!")
+                            roomIndex = None
+                        else:
+                            roomsToShootThrough.append(roomIndex)
             except:
                 print("Invalid Input!")
 
